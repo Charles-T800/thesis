@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, skyblue, white);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .art-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .art-shape {
+            position: absolute;
+            border-radius: 50%;
+            animation: move 15s linear infinite alternate;
+        }
+
+        @keyframes move {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-50%, -50%) scale(1.5); }
+        }
+
+        .container {
+            max-width: 400px;
+            background-color: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-container img {
+            border-radius: 10px;
+            max-width: 150px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container img:hover {
+            transform: scale(1.1);
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 30px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="art-container">
+        <div class="art-shape" style="background: skyblue; width: 100px; height: 100px; top: 20%; left: 10%;"></div>
+        <div class="art-shape" style="background: skyblue; width: 80px; height: 80px; top: 70%; left: 80%;"></div>
+        <div class="art-shape" style="background: skyblue; width: 120px; height: 120px; top: 40%; left: 50%;"></div>
+    </div>
+
+    <div class="container">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        </div>
+        <h2>Register</h2>
+        <form method="POST" action="/register" onsubmit="return validateForm()">
+            <input type="text" name="username" placeholder="Username already taken" required>
+            <input type="password" name="password" id="password" placeholder="Password (must have 8 characters)" required>
+            <div id="passwordWarning" style="color: red; margin-bottom: 10px; display: none;">Password must be 8 characters or more</div>
+            <input type="text" name="age_input" placeholder="Age" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="checkbox" id="termsCheckbox" required>
+            <label for="termsCheckbox">I agree to the <a href="{{ url_for('TandC') }}">Terms & Conditions</a></label><br><br>
+            <input type="submit" id="submitButton" value="Register">
+        </form>
+        <p>Already have an account? <a href="/login">Login here</a>.</p>
+    </div>
+    
+    <script>
+        function validateForm() {
+            var password = document.getElementById('password').value;
+            if (password.length < 8) {
+                alert("Password must be 8 characters or more. Please correct it.");
+                return false; // Prevent form submission
+            } else {
+                return true; // Allow form submission
+            }
+        }
+    
+        document.getElementById('password').addEventListener('input', function() {
+            var password = this.value;
+            var warning = document.getElementById('passwordWarning');
+            var submitButton = document.getElementById('submitButton');
+            if (password.length < 8) {
+                warning.style.display = 'block';
+                submitButton.disabled = true; // Disable submit button
+            } else {
+                warning.style.display = 'none';
+                submitButton.disabled = false; // Enable submit button
+            }
+        });
+
+        function validateForm() {
+            // Check if the checkbox is checked
+            var checkBox = document.getElementById("termsCheckbox");
+            if (!checkBox.checked) {
+                alert("Please agree to the Terms & Conditions.");
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission if checkbox is checked
+        }
+    </script>
+</body>
+</html>

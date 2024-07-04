@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', cursive;
+            position: relative;
+            background-color: #b3e5fc; /* Light blue background */
+        }
+
+        header {
+            width: 100%;
+            background-color: #64b5f6; /* Dark blue header */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 2;
+        }
+
+        nav {
+            text-align: right;
+            color: #fff;
+        }
+
+        nav a {
+            position: relative;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ba68c8; /* Light purple text on hover */
+        }
+
+        h1 {
+            color: #1565c0; /* Dark blue title */
+            padding: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            margin-top: 30px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 2;
+        }
+
+        .video {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff; /* White background */
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .video h2 {
+            color: #1565c0; /* Dark blue title */
+            font-size: 1.2em;
+            padding: 10px;
+            margin: 0;
+            text-align: center;
+        }
+
+        .video video {
+            width: 100%;
+            height: auto;
+        }
+
+        .warning-popup {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%; /* Adjust the width of the popup */
+            max-width: 400px; /* Adjust the maximum width of the popup */
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+            backdrop-filter: blur(5px); /* Blurry effect */
+            color: #1565c0; /* Dark blue text color */
+            padding: 20px; /* Add padding for better readability */
+            border-radius: 10px; /* Rounded corners */
+            z-index: 999;
+            display: none;
+        }
+
+        .warning-popup p {
+            font-size: 1.5em; /* Adjust font size as needed */
+            font-family: 'Comic Sans MS', cursive; /* Custom font */
+            text-align: center; /* Center-align the text */
+            margin-bottom: 20px; /* Add some bottom margin */
+        }
+
+        .warning-popup button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            border: none;
+            background-color: #fff;
+            color: #1565c0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .warning-popup button:hover {
+            background-color: #f0f0f0;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            width: 120px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Art design background */
+        .art-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .art-shape {
+            position: absolute;
+            border-radius: 50%;
+            animation: move 15s linear infinite alternate;
+        }
+
+        @keyframes move {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-50%, -50%) scale(1.5); }
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-container img {
+            border-radius: 50%;
+            max-width: 100px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container img:hover {
+            transform: scale(1.1);
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="submit"] {
+            width: calc(100% - 24px);
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 2px solid #1565c0; /* Dark blue border */
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            background-color: #fff; /* White background */
+            position: relative;
+            z-index: 2;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #ba68c8; /* Light purple focus border color */
+        }
+
+        input[type="submit"] {
+            background-color: #64b5f6; /* Dark blue background color */
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 18px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ba68c8; /* Light purple shade on hover */
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+            color: #1565c0; /* Dark blue font color */
+            position: relative;
+            z-index: 2;
+        }
+
+        .forgot-password a {
+            color: #1565c0; /* Dark blue link color */
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <title>Main Website</title>
+</head>
+<body>
+    <!-- Art design background -->
+    <div class="art-container">
+        <!-- Add multiple shapes for a more dynamic effect -->
+        <div class="art-shape" style="background: #e1bee7; width: 100px; height: 100px; top: 20%; left: 10%;"></div>
+        <div class="art-shape" style="background: #e1bee7; width: 80px; height: 80px; top: 70%; left: 80%;"></div>
+        <div class="art-shape" style="background: #e1bee7; width: 120px; height: 120px; top: 40%; left: 50%;"></div>
+        <!-- Add more shapes as needed -->
+    </div>
+
+    <!-- Header -->
+    <header>
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Trending</a>
+            <a href="#">Subscriptions</a>
+            <a href="#">History</a>
+            <a href="#">Library</a>
+            <a href="#">Settings</a>
+        </nav>
+    </header>
+
+    <!-- Title -->
+    <h1>Welcome to Main Page</h1>
+
+    <!-- Video containers -->
+    <div class="video-container">
+        <!-- Add your kid-friendly videos here -->
+        <div class="video">
+            <h2>SPG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('popup1')" id="video1">
+                <source src="static/adult video 1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="warning-popup" id="popup1">
+                <p>Warning: This video contains sensitive content.</p>
+                <div class="button-container">
+                    <button onclick="playVideo('video1')">OK</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="video">
+            <h2>PG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/teen video 1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>          
+        </div>
+
+            <div class="video">
+                <h2>SPG</h2>
+                <video width="100%" height="200" controls onclick="showPopup('popup2')" id="video2">
+                    <source src="static/adult video 2.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="warning-popup" id="popup2">
+                    <p>Warning: This video contains sensitive content.</p>
+                    <div class="button-container">
+                        <button onclick="playVideo('video2')">OK</button>
+                    </div>
+                </div>
+            </div>
+
+        <div class="video">
+            <h2>PG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/teen video 2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            </div>
+
+        <div class="video">
+            <h2>SPG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('popup3')" id="video3">
+                <source src="static/adult video 3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="warning-popup" id="popup3">
+                <p>Warning: This video contains sensitive content.</p>
+                <div class="button-container">
+                    <button onclick="playVideo('video3')">OK</button>
+                </div>
+            </div> 
+            </div>
+        
+
+        <div class="video">
+            <h2>PG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/teen video 3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            </div>
+        
+
+        <div class="video">
+            <h2>SPG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('popup4')" id="video4">
+                <source src="videos/adult video 4.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            <div class="warning-popup" id="popup4">
+                <p>Warning: This video contains sensitive content.</p>
+                <div class="button-container">
+                    <button onclick="playVideo('video4')">OK</button>
+                </div>
+            </div>
+            </div>
+        
+
+        <div class="video">
+            <h2>PG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/teen video 4.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            </div>
+        
+
+        <div class="video">
+            <h2>SPG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('popup5')" id="video5">
+                <source src="static/adult video 5.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            <div class="warning-popup" id="popup5">
+                <p>Warning: This video contains sensitive content.</p>
+                <div class="button-container">
+                    <button onclick="playVideo('video5')">OK</button>
+                </div>
+            </div>
+            </div>
+        
+            
+        <div class="video">
+            <h2>PG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/teen video 5.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            </div>
+           
+
+        <div class="video">
+            <h2>SPG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('popup6')" id="video6">
+                <source src="static/adult video 6.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            <div class="warning-popup" id="popup6">
+                <p>Warning: This video contains sensitive content.</p>
+                <div class="button-container">
+                    <button onclick="playVideo('video6')">OK</button>
+                </div>
+            </div>
+            </div>
+        
+
+        <div class="video">
+            <h2>PG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/teen video 6.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            </div>
+           
+        
+        <div class="video">
+            <h2>SPG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('popup7')" id="video7">
+                <source src="static/teen video 7.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            <div class="warning-popup" id="popup7">
+                <p>Warning: This video contains sensitive content.</p>
+                <div class="button-container">
+                    <button onclick="playVideo('video7')">OK</button>
+                </div>
+            </div>
+            </div>
+           
+        
+        <div class="video">
+            <h2>G</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            </div>
+            
+
+        <div class="video">
+            <h2>SPG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('popup8')" id="video8">
+                <source src="static/adult video 8.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            <div class="warning-popup" id="popup8">
+                <p>Warning: This video contains sensitive content.</p>
+                <div class="button-container">
+                    <button onclick="playVideo('video8')">OK</button>
+                </div>
+            </div>
+            </div>
+        
+
+        <div class="video">
+            <h2>G</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            </div>
+        
+
+        <div class="video">
+            <h2>SPG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('popup9')" id="video9">
+                <source src="static/adult video 9.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video><div class="warning-popup" id="popup9">
+                <p>Warning: This video contains sensitive content.</p>
+                <div class="button-container">
+                    <button onclick="playVideo('video9')">OK</button>
+                </div>
+            </div> 
+            </div>
+        
+
+        <div class="video">
+            <h2>G</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            </div>
+        
+
+        <div class="video">
+            <h2>SPG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('popup10')" id="video10">
+                <source src="static/adult video 10.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            <div class="warning-popup" id="popup10">
+                <p>Warning: This video contains sensitive content.</p>
+                <div class="button-container">
+                    <button onclick="playVideo('video10')">OK</button>
+                </div>
+            </div>
+            </div>
+        
+
+        <div class="video">
+            <h2>G</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 4.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            </div>
+        
+
+        <div class="video">
+            <h2>SPG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('popup11')" id="video11">
+                <source src="static/adult video 11.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            <div class="warning-popup" id="popup11">
+                <p>Warning: This video contains sensitive content.</p>
+                <div class="button-container">
+                    <button onclick="playVideo('video11')">OK</button>
+                </div>
+            </div>
+            </div>
+        
+
+        <div class="video">
+            <h2>G</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 5.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            </div>
+        
+
+        <div class="video">
+            <h2>SPG</h2>
+            <video width="100%" height="200" controls onclick="showPopup('popup12')" id="video12">
+                <source src="static/adult video 12.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="warning-popup" id="popup12">
+                <p>Warning: This video contains sensitive content.</p>
+                <div class="button-container">
+                    <button onclick="playVideo('video12')">OK</button>
+                </div>
+            </div> 
+            </div>
+        
+
+        <div class="video">
+            <h2>G</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 6.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            </div>
+        
+
+        <div class="video">
+            <h2>G</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="videos/kids video 7.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            </div>
+        
+
+
+    </div>
+
+    <script>
+
+   
+            // Function to refresh the page after 1 minute
+            function refreshPage() {
+                location.reload();
+            }
+    
+            // Call the refreshPage function after 1 minute (60000 milliseconds)
+            setTimeout(refreshPage, 60000);
+
+
+        function showPopup(popupId) {
+            var popup = document.getElementById(popupId);
+            popup.style.display = "block";
+        }
+
+        function hidePopup(popupId) {
+            var popup = document.getElementById(popupId);
+            popup.style.display = "none";
+        }
+
+        function playVideo(videoId) {
+            var video = document.getElementById(videoId);
+            video.play();
+            hidePopup('popup' + videoId.charAt(videoId.length - 1));
+        }
+        
+        var videos = document.getElementsByTagName("video");
+        for (var i = 0; i < videos.length; i++) {
+            videos[i].addEventListener("play", function() {
+                showPopup(this.nextElementSibling.id);
+            });
+            videos[i].addEventListener("fullscreenchange", function() {
+                if (document.fullscreenElement === this) {
+                    showPopup(this.nextElementSibling.id);
+                } else {
+                    hidePopup(this.nextElementSibling.id);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>

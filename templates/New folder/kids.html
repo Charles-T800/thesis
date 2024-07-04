@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', cursive;
+            position: relative;
+            background-color: #b3e5fc; 
+        }
+
+        header {
+            width: 100%;
+            background-color: #64b5f6; 
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 2;
+        }
+
+        nav {
+            text-align: right;
+            color: #fff;
+        }
+
+        nav a {
+            position: relative;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ba68c8; 
+        }
+
+        h1 {
+            color: #1565c0; 
+            padding: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            margin-top: 30px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 2;
+        }
+
+        .video {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff; 
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .video h2 {
+            color: #1565c0; 
+            font-size: 1.2em;
+            padding: 10px;
+            margin: 0;
+            text-align: center;
+        }
+
+        .video video {
+            width: 100%;
+            height: auto;
+        }
+
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            width: 120px;
+            position: relative;
+            z-index: 2;
+        }
+
+       
+        .art-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .art-shape {
+            position: absolute;
+            border-radius: 50%;
+            animation: move 15s linear infinite alternate;
+        }
+
+        @keyframes move {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-50%, -50%) scale(1.5); }
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-container img {
+            border-radius: 50%;
+            max-width: 100px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container img:hover {
+            transform: scale(1.1);
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="submit"] {
+            width: calc(100% - 24px);
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 2px solid #1565c0; 
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            background-color: #fff; 
+            position: relative;
+            z-index: 2;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #ba68c8;
+        }
+
+        input[type="submit"] {
+            background-color: #64b5f6; 
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 18px;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ba68c8; 
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin-top: 20px;
+            color: #1565c0; 
+            position: relative;
+            z-index: 2;
+        }
+
+        .forgot-password a {
+            color: #1565c0; 
+            text-decoration: none;
+        }
+
+        .forgot-password a:hover {
+            text-decoration: underline;
+        }
+    </style>
+    <title>Kid's Website</title>
+</head>
+<body>
+    
+    <div class="art-container">
+        
+        <div class="art-shape" style="background: #e1bee7; width: 100px; height: 100px; top: 20%; left: 10%;"></div>
+        <div class="art-shape" style="background: #e1bee7; width: 80px; height: 80px; top: 70%; left: 80%;"></div>
+        <div class="art-shape" style="background: #e1bee7; width: 120px; height: 120px; top: 40%; left: 50%;"></div>
+       
+    </div>
+
+   
+    <header>
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Trending</a>
+            <a href="#">Subscriptions</a>
+            <a href="#">History</a>
+            <a href="#">Library</a>
+            <a href="#">Settings</a>
+        </nav>
+    </header>
+
+   
+    <h1>Welcome to Kid's Corner</h1>
+
+   
+    <div class="video-container">
+       
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 1.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 2.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 3.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 4.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 5.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 6.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 7.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 8.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 9.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 10.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 11.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 12.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 13.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 14.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 15.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 16.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 17.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 18.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 19.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 20.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 21.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 22.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 23.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>Cartoon Adventure</h2>
+            <video width="100%" height="200" controls>
+                <source src="{{ url_for('static', filename='kids video 24.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+       
+    </div>
+
+    
+    <div class="content">
+       
+    </div>
+    <script>
+        // Function to refresh the page after 15 minutes
+        function refreshPage() {
+            location.reload();
+        }
+    
+        // Call the refreshPage function after 15 minutes (900000 milliseconds)
+        setTimeout(refreshPage, 60000);
+    </script>
+</body>
+
+
+</html>

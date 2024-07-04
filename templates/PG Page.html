@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', cursive;
+            position: relative;
+            background-color: #b3e5fc; /* Light blue background */
+        }
+
+
+        header {
+            width: 100%;
+            background-color: #64b5f6; /* Dark blue header */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            position: fixed; /* Fix the header at the top */
+            top: 0; /* Position it at the top of the viewport */
+            z-index: 1000; /* Ensure the header is above other content */
+        }
+        
+        nav {
+            text-align: right;
+            color: #fff;
+        }
+        
+        nav a {
+            position: relative;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #ba68c8; /* Light purple text on hover */
+        }
+
+
+        h1 {
+            color: #1565c0; 
+            padding: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            margin-top: 100px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .video-container {
+        display: grid;
+        grid-template-columns: 1fr; /* One video per row */
+        gap: 20px;
+        padding: 20px;
+        box-sizing: border-box;
+        position: relative;
+        z-index: 2;
+        margin: 0 auto; /* Centering the video containers */
+        max-width: 1100px; /* Limit the maximum width */
+    }
+
+    .video {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background-color: #fff; 
+        border-radius: 8px;
+        overflow: hidden;
+        width: calc(100% - 40px); /* Adjust width */
+    }
+        .video h2 {
+            color: #1565c0; 
+            font-size: 1.2em;
+            padding: 10px;
+            margin: 0;
+            text-align: center;
+        }
+
+        .video video {
+            width: 100%;
+            height: auto;
+        }
+
+        .content {
+            padding: 20px;
+            max-width: 800px;
+            width: 100%;
+            box-sizing: border-box;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            width: 120px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .art-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .art-shape {
+            position: absolute;
+            border-radius: 50%;
+            animation: move 15s linear infinite alternate;
+        }
+
+        @keyframes move {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-50%, -50%) scale(1.5); }
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-container img {
+            border-radius: 50%;
+            max-width: 100px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container img:hover {
+            transform: scale(1.1);
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            background-color: #e1bee7; 
+            color: #1565c0; 
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+    </style>
+    <title>PG Category</title>
+
+    
+</head>
+<body>
+    
+    <div class="art-container">
+        
+        <div class="art-shape" style="background: #e1bee7; width: 100px; height: 100px; top: 20%; left: 10%;"></div>
+        <div class="art-shape" style="background: #e1bee7; width: 80px; height: 80px; top: 70%; left: 80%;"></div>
+        <div class="art-shape" style="background: #e1bee7; width: 120px; height: 120px; top: 40%; left: 50%;"></div>
+       
+    </div>
+
+   
+    <header>
+        <a href="#top">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="max-width: 150px;">
+        </a>
+        <nav>
+            <a href="{{ url_for('main') }}">Home</a>
+            <a href="{{ url_for('login') }}">Sign Out</a>
+        </nav>
+    </header>
+
+   
+    <h1>PG Category</h1>
+       
+    <div class="video-container">
+       
+        <div class="video">
+            <h2>PG GTA-SA mission 5</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/teen video 6.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>          
+        </div>
+
+        <div class="video">
+            <h2>G Neurotically Yours Ep. 59</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 24.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video> 
+            </div>
+
+            <div class="video">
+                <h2>PG</h2>
+                <video width="100%" height="200" controls onclick="showPopup('')">
+                    <source src="static/teen video 2.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video> 
+                </div>
+
+                <div class="video">
+                    <h2>PG Fate stay night</h2>
+                    <video width="100%" height="200" controls onclick="showPopup('')">
+                        <source src="static/teen video 5.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video> 
+                    </div>
+
+                    <div class="video">
+                        <h2>PG Naruto Final showdown</h2>
+                        <video width="100%" height="200" controls onclick="showPopup('')">
+                            <source src="static/teen video 1.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video> 
+                        </div>
+
+                        <div class="video">
+                            <h2>G Merrie Melodies</h2>
+                            <video width="100%" height="200" controls onclick="showPopup('')">
+                                <source src="static/kids video 21mp4" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video> 
+                            </div>
+    </div>
+
+    
+    <div class="content">
+       
+    </div>  
+    
+    <script>
+
+            // Function to refresh the page after 1 minute
+            function refreshPage() {
+                location.reload();
+            }
+    
+            // Call the refreshPage function after 1 minute (60000 milliseconds)
+            setTimeout(refreshPage, 60000);
+
+        function signOut() {
+            window.close();
+        }
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Our Website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #3498db;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 100px auto;
+      text-align: center;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+    }
+
+    h1, p, label {
+      color: #000; /* Set font color to black */
+    }
+
+    h1 {
+      margin-bottom: 30px;
+    }
+
+    button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #3498db;
+      color: #fff;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+
+    .terms-container {
+      margin-top: 20px;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Our Website</h1>
+    <p>We would like to extend our heartfelt gratitude to you for your contribution as a tester for our system.</p>
+    <div class="button-container">
+      <button onclick="window.location.href='login.html'">Login</button>
+      <button onclick="window.location.href='register.html'">Register</button>
+    </div>
+    <div class="terms-container">
+      <input type="checkbox" id="termsCheckbox">
+      <label for="termsCheckbox" style="color: black;">I agree to the <a href="tc.html">Terms and Conditions</a></label>
+    </div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const termsCheckbox = document.getElementById('termsCheckbox');
+      const registerButton = document.querySelector('.button-container button:last-child');
+      termsCheckbox.addEventListener('change', function() {
+        if (termsCheckbox.checked) {
+          registerButton.disabled = false;
+        } else {
+          registerButton.disabled = true;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

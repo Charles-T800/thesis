@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webcam Photo Capture</title>
+    <style>
+        #video-container {
+            display: flex;
+            position: relative;
+        }
+
+        #video-container video {
+            margin: 10px;
+            max-width: 50%;
+        }
+
+        #photo {
+            position: absolute;
+            top: 0;
+            right: 0;
+            max-width: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div id="video-container">
+        <video id="video" autoplay></video>
+    </div>
+    <button id="open-btn">Open Webcam</button>
+    <button id="capture-btn">Capture Photo</button>
+
+    <script>
+        var video = document.getElementById('video');
+        var openButton = document.getElementById('open-btn');
+        var captureButton = document.getElementById('capture-btn');
+
+        openButton.addEventListener('click', function() {
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    video.srcObject = stream;
+                })
+                .catch(function(err) {
+                    console.error('Error accessing the webcam: ' + err.message);
+                });
+        });
+
+        captureButton.addEventListener('click', function() {
+            var canvas = document.createElement('canvas');
+            var photoContainer = document.getElementById('video-container');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            var photo = new Image();
+            photo.src = canvas.toDataURL();
+            photo.id = 'photo';
+
+            // Remove any existing photo
+            var existingPhoto = document.getElementById('photo');
+            if (existingPhoto) {
+                photoContainer.removeChild(existingPhoto);
+            }
+
+            // Append the new photo
+            photoContainer.appendChild(photo);
+        });
+    </script>
+</body>
+</html>

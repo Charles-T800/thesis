@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Page & Real-time Face Recognition</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Comic Sans MS', cursive, Arial, sans-serif;
+            position: relative;
+            background-color: #b3e5fc; /* Light blue background */
+        }
+
+        header {
+            width: 100%;
+            background-color: #64b5f6; /* Dark blue header */
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-sizing: border-box;
+            position: fixed; /* Fix the header at the top */
+            top: 0; /* Position it at the top of the viewport */
+            z-index: 1000; /* Ensure the header is above other content */
+        }
+
+        nav {
+            text-align: right;
+            color: #fff;
+        }
+
+        nav a {
+            position: relative;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin: 0 10px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ba68c8; /* Light purple text on hover */
+        }
+
+        .video-container {
+            display: grid;
+            grid-template-columns: 1fr; /* One video per row */
+            gap: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 2;
+            margin: 0 auto; /* Centering the video containers */
+            max-width: 1100px; /* Limit the maximum width */
+        }
+
+        .video {
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            width: calc(100% - 40px); /* Adjust width */
+        }
+
+        .video h2 {
+            color: #1565c0;
+            font-size: 1.2em;
+            padding: 10px;
+            margin: 0;
+            text-align: center;
+        }
+
+        .video video {
+            width: 100%;
+            height: auto;
+        }
+
+        h1 {
+            color: #1565c0; /* Dark blue title */
+            padding: 20px;
+            font-size: 2em;
+            font-weight: bold;
+            margin-top: 100px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Buttons */
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .buttons-container button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            background-color: #e1bee7; /* Light purple background */
+            color: #1565c0; /* Dark blue text color */
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .buttons-container button:hover {
+            background-color: #ba68c8; /* Light purple shade on hover */
+            color: white; /* White text color on hover */
+        }
+
+        .art-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .art-shape {
+            position: absolute;
+            border-radius: 50%;
+            animation: move 15s linear infinite alternate;
+        }
+
+        @keyframes move {
+            0% { transform: translate(-50%, -50%) scale(1); }
+            100% { transform: translate(-50%, -50%) scale(1.5); }
+        }
+
+        .recognition-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            width: 240px; /* Adjust the width */
+            height: 320px; /* Adjust the height */
+        }
+
+        .video-stream {
+            margin-top: 20px;
+        }
+
+        #video-stream img {
+            width: 240px;
+            height: auto; 
+            border: 1px solid #ccc;
+        }
+
+        #refresh-button-container,
+        #error-message {
+            display: none;
+        }
+
+        button {
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .blur-background *:not(.recognition-container):not(.recognition-container *) {
+            filter: blur(8px);
+            pointer-events: none; /* Disables interactions with the blurred content */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="#top">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="max-width: 150px;">
+        </a>
+        <nav>
+            <a href="{{ url_for('TandCmain') }}">Terms & Conditions</a>
+            <a href="{{ url_for('login') }}">Sign Out</a>
+        </nav>
+    </header>
+
+    <!-- Title -->
+    <h1>Welcome to Main Page</h1>
+
+    <!-- Text -->
+    <p style="text-align: center; font-size: 1.2em;">Select a category...</p>
+
+    <!-- Buttons -->
+    <div class="buttons-container">
+        <form action="{{ url_for('button1') }}">
+            <button type="submit">G</button>
+        </form>
+        <form action="{{ url_for('button2') }}">
+            <button type="submit">PG</button>
+        </form>
+        <form action="{{ url_for('button3') }}">
+            <button type="submit">SPG</button>
+        </form>
+    </div>
+
+    <!-- Video containers -->
+    <div class="video-container">
+        <!-- Add your kid-friendly videos here -->
+        <div class="video">
+            <h2>PG Final showdown</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/teen video 1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>PG Fate stay night</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/teen video 2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>PG GTA-SA fire mission</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/teen video 3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>PG I WANT THE SECRET FORMULA</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/teen video 4.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>PG GTA-SA Day1</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/teen video 5.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>PG GTA-SA Mission</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/teen video 6.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>G Part2: Constraction</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 1.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>G Flip the frog</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 2.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>G The lost dream</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 3.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>G Trolley Ahoy</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 4.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>G Medicated Baby-Heads</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 5.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>G Manga</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 6.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+
+        <div class="video">
+            <h2>G Kid save the day!!</h2>
+            <video width="100%" height="200" controls onclick="showPopup('')">
+                <source src="static/kids video 7.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <!-- Real-time Face Recognition -->
+    <div class="recognition-container">
+        <form id="username-form" method="post" action="{{ url_for('video_feed_data2') }}">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <button type="submit">Submit</button>
+        </form>
+
+        <div class="video-stream" id="video-stream">
+            <img src="{{ url_for('video') }}" alt="Video Stream"/>
+        </div>
+
+        <div id="refresh-button-container">
+            <button onclick="refreshPage()">Log In</button>
+        </div>
+
+        <div id="error-message" style="display: none;">
+            <p>Face could not be detected. Please refresh the page.</p>
+        </div>
+    </div>
+
+    <script>
+
+        // Function to blur the background
+        function blurBackground() {
+            document.body.classList.add('blur-background');
+        }
+
+        // Set a timeout to blur the background after 1 minute (60000 milliseconds)
+        setTimeout(() => {
+            // Check if the form is submitted
+            const username = document.getElementById('username').value;
+            if (!username) { // If the username field is empty, blur the background
+                blurBackground();
+            }
+        }, 60000); // 1 minute timeout
+    </script>
+
+    <!-- Include the JavaScript file -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
