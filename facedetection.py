@@ -162,7 +162,7 @@ def save_base64_image_and_convert_to_jpeg(base64_data):
     binary_data = base64.b64decode(base64_data)
     
     # Convert binary data to JPEG format
-    jpeg_data = binary_data  # In this example, we're keeping the binary data as is
+    jpeg_data = binary_data  
     
     # Save both Base64 and JPEG data to the database
     save_base64_and_image_to_database(base64_data, jpeg_data)
@@ -180,7 +180,7 @@ def test_embedding_extraction(image_data):
 
 
 def decode_base64_image(base64_str):
-    # Fix padding if necessary
+
     missing_padding = len(base64_str) % 4
     if missing_padding != 0:
         base64_str += '=' * (4 - missing_padding)
@@ -289,7 +289,6 @@ def detect_faces(username):
         save_image_to_database(username, cv2.imencode('.jpg', frame)[1].tobytes())
 
         # Process the result as needed
-        # For example, you can print the result to the console
         print(result)
 
         # Encode the analyzed frame as JPEG
@@ -464,8 +463,6 @@ def video_feed_data():
 @app.route('/generate_video_feed')
 def generate_video_feed(username):
     
-
-    # Assuming detect_faces returns a sequence of frame data
     for frame_data in detect_faces(username):
         # Build the frame with some HTML design or styling
         frame = b'<html><head><title>Registration Complete</title>'
@@ -523,7 +520,6 @@ def video_feed_data2():
 
 @app.route('/generate_video_feed2')
 def generate_video_feed2(username):
-    # Assuming detect_faces returns a sequence of frame data
     for frame_data in detect_faces(username):
         # Build the frame with some HTML design or styling
         frame = b'<html><head><title>Detection Complete</title>'
@@ -544,7 +540,6 @@ def generate_video_feed2(username):
 
 
 
-#the here will start
 @app.route('/')
 def index():
     return redirect(url_for('login'))
